@@ -12,6 +12,8 @@ export default class Main extends Component {
     newRepo: '',
     repositories: [],
     loading: false,
+    error: null,
+    msg: '',
   };
 
   // Carregar os dados do localStorage
@@ -39,25 +41,46 @@ export default class Main extends Component {
   handleSubmit = async (e) => {
     e.preventDefault();
 
-    this.setState({ loading: true });
+    this.setState({ loading: true, error: false });
 
-    const { newRepo, repositories } = this.state;
+    try {
+      const { newRepo, repositories } = this.state;
 
-    const response = await api.get(`/repos/${newRepo}`);
+      // Verifica se o input está vazio
+      if (newRepo === '') throw new Error('Informe um repositório');
 
-    const data = {
-      name: response.data.full_name,
-    };
+      // Verifica se o repositório já existe
+      const repoExists = repositories.find((repo) => repo.name === newRepo);
+      if (repoExists) throw new Error('O repositório já existe');
 
-    this.setState({
-      repositories: [...repositories, data],
-      newRepo: '',
-      loading: false,
-    });
+      const response = await api
+        .get(`/repos/${newRepo}`)
+        .catch(function (error) {
+          if (error) {
+            throw new Error('Repositório não encontrado');
+          }
+        });
+
+      const data = {
+        name: response.data.full_name,
+      };
+
+      this.setState({
+        repositories: [...repositories, data],
+        newRepo: '',
+      });
+    } catch (error) {
+      this.setState({
+        error: true,
+        msg: error.message,
+      });
+    } finally {
+      this.setState({ loading: false });
+    }
   };
 
   render() {
-    const { newRepo, repositories, loading } = this.state;
+    const { newRepo, repositories, loading, error, msg } = this.state;
 
     return (
       <Container>
@@ -65,22 +88,24 @@ export default class Main extends Component {
           <FaGithubAlt />
           Repositórios
         </h1>
+        <Form onSubmit={this.handleSubmit} error={error}>
+          {error && <label htmlFor={msg}>{msg}</label>}
+          <div>
+            <input
+              type="text"
+              placeholder="Adicionar repositório"
+              value={newRepo}
+              onChange={this.handleInputChange}
+            />
 
-        <Form onSubmit={this.handleSubmit}>
-          <input
-            type="text"
-            placeholder="Adicionar repositório"
-            value={newRepo}
-            onChange={this.handleInputChange}
-          />
-
-          <SubmitButton loading={loading}>
-            {loading ? (
-              <FaSpinner color="#fff" size={14} />
-            ) : (
-              <FaPlus color="#fff" size={14} />
-            )}
-          </SubmitButton>
+            <SubmitButton loading={loading}>
+              {loading ? (
+                <FaSpinner color="#fff" size={14} />
+              ) : (
+                <FaPlus color="#fff" size={14} />
+              )}
+            </SubmitButton>
+          </div>
         </Form>
 
         <List>

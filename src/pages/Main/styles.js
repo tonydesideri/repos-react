@@ -3,14 +3,28 @@ import styled, { keyframes, css } from 'styled-components';
 export const Form = styled.form`
   margin-top: 30px;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 
-  input {
+  label {
     flex: 1;
-    border: 1px solid #eee;
+    background: #ff6b6b;
+    color: #eee;
     padding: 10px 15px;
     border-radius: 4px;
     font-size: 16px;
+  }
+  div {
+    margin-top: 5px;
+    display: flex;
+    flex-direction: row;
+
+    input {
+      flex: 1;
+      border: 1px solid ${(props) => (props.error ? '#ff6b6b' : '#eee')};
+      padding: 10px 15px;
+      border-radius: 4px;
+      font-size: 16px;
+    }
   }
 `;
 
