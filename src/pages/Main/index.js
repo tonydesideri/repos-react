@@ -55,6 +55,7 @@ export default class Main extends Component {
 
       const response = await api
         .get(`/repos/${newRepo}`)
+        // eslint-disable-next-line func-names
         .catch(function (error) {
           if (error) {
             throw new Error('Repositório não encontrado');
