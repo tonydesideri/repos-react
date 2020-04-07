@@ -42,9 +42,38 @@ export const Owner = styled.header`
   }
 `;
 
+export const ButtonState = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-top: 15px;
+  align-items: center;
+  justify-content: center;
+
+  button {
+    background-color: #fff;
+    border: 1px solid;
+    border-color: #7159c1;
+    border-radius: 4px;
+    color: #7159c1;
+    padding: 8px 26px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.3s;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #7159c1;
+      color: #eee;
+    }
+  }
+`;
+
 export const IssueList = styled.ul`
-  padding-top: 30px;
-  margin-top: 30px;
+  padding-top: 10px;
+  margin-top: 10px;
   border-top: 1px solid #eee;
 
   li {
@@ -73,6 +102,7 @@ export const IssueList = styled.ul`
         a {
           text-decoration: none;
           color: #333;
+          line-height: 1.5;
 
           &:hover {
             color: #7159c1;
@@ -80,8 +110,8 @@ export const IssueList = styled.ul`
         }
 
         span {
-          background: #eee;
-          color: #333;
+          background: #666666;
+          color: #eee;
           border-radius: 2px;
           font-size: 12px;
           font-weight: 600;
@@ -92,10 +122,47 @@ export const IssueList = styled.ul`
       }
 
       p {
-        margin-top: 5px;
+        margin-top: 10px;
         font-size: 12px;
         color: #999;
       }
+    }
+  }
+`;
+
+export const StateIssues = styled.strong`
+  background-color: ${(props) =>
+    props.state === 'open' ? '#2cbe4e' : '#cb2431'};
+  display: inline-block;
+  padding: 4px 8px;
+  font-weight: 600;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  line-height: 20px;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  border-radius: 3px;
+`;
+
+export const PageActions = styled.div`
+  padding-top: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+
+  button {
+    transition: opacity 0.25s ease-out;
+    border-radius: 4px;
+    outline: 0;
+    border: 0;
+    padding: 8px;
+
+    &:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
     }
   }
 `;
