@@ -4,7 +4,7 @@
 Esse projeto tem como objetivo aprimorar conhecimentos, a funcionalidade principal é fazer consultas a api do github
 e retornar os repositórios pesquisados e suas issues.
 
-![](name-of-giphy.gif)
+![](.github/repos-react.gif)
 
 ## Instalação
 
